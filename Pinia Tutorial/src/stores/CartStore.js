@@ -6,8 +6,15 @@ export const useCartStore = defineStore('cartStore', {
 
   }),
 
-  // mautate state
+  // computed state
+  getters: {
 
+    count: (state) => state.items.length,
+
+    isEmpty: (state) => state.count === 0
+
+  },
+  // mautate state
   actions: {
     addItems(count, item) {
       count = parseInt(count)
@@ -18,5 +25,6 @@ export const useCartStore = defineStore('cartStore', {
       }
     }
   }
+
 
 })
