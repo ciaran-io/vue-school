@@ -23,17 +23,20 @@ const active = ref(false);
             v-for="(items, name) in cartStore.grouped" 
             :key="name"
             :product="items[0]"
-            :count="items.length"
-            @updateCount=""
-            @clear=""
+            :count="cartStore.groupCount(name)"
+            @clear="cartStore.removeCartItem(name)"
+            @updateCount="cartStore.setItemCount(items[0], $event)"
 
           />
         </ul>
         <div class="flex justify-end text-2xl mb-5">
-          Total: <strong>$40</strong>
+          Total: <strong>€ {{cartStore.cartTotal}}</strong>
         </div>
         <div class="flex justify-end">
-          <AppButton class="secondary mr-2">Clear Cart</AppButton>
+          <AppButton
+           class="secondary mr-2"
+          @click="cartStore.$reset()"
+          >Clear Cart</AppButton>
           <AppButton class="primary">Checkout</AppButton>
         </div>
       </div>
