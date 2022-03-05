@@ -9,6 +9,7 @@ const productStore = useProductStore()
 
 // addProducts asynchronously from productStore
 productStore.addProducts()
+
 </script>
 
 <template>
@@ -19,7 +20,7 @@ productStore.addProducts()
         v-for="product in productStore.products"
         :key="product.name"
         :product="product"
-        @add-to-cart="cartStore.addItems($event, product)"
+        @add-to-cart="cartStore.addCartItem($event, product)"
       />
     </ul>
   </div>
