@@ -4,7 +4,6 @@ import { ref } from "vue";
 import CartItem from "./CartItem.vue";
 import { useCartStore } from '@/stores/CartStore'
 const cartStore = useCartStore()
-
 // data
 const active = ref(false);
 </script>
@@ -37,7 +36,10 @@ const active = ref(false);
            class="secondary mr-2"
           @click="cartStore.$reset()"
           >Clear Cart</AppButton>
-          <AppButton class="primary">Checkout</AppButton>
+          <AppButton
+           class="primary"
+           @click="cartStore.checkout"
+           >Checkout</AppButton>
         </div>
       </div>
 
