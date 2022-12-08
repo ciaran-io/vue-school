@@ -2,10 +2,11 @@
 import ArrowCircleRight from "@/assets/icons/arrow-circle-right.svg";
 import EmojiField from "@/components/EmojiField.vue";
 import type Emoji from "@/types/Emoji";
-import { ref } from "vue";
+import { ref, computed } from "vue";
 
 const text = ref("");
 const emoji = ref<Emoji | null>(null);
+const charCount = computed(() => text.value.length);
 </script>
 <template>
   <form class="entry-form" @submit.prevent>
@@ -15,7 +16,7 @@ const emoji = ref<Emoji | null>(null);
     ></textarea>
     <EmojiField v-model="emoji" />
     <div class="entry-form-footer">
-      <span>0 / 280</span>
+      <span>{{ charCount }} / 280</span>
       <button>Remember <ArrowCircleRight width="20" /></button>
     </div>
   </form>
