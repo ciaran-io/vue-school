@@ -3,6 +3,8 @@ import EntryCard from "@/components/EntryCard.vue";
 import EntryEditor from "@/components/EntryEditor.vue";
 import TheHeader from "@/components/TheHeader.vue";
 import type User from "@/types/User";
+import type Emoji from "@/types/Emoji";
+
 import { reactive } from "vue";
 
 const user: User = reactive({
@@ -10,12 +12,15 @@ const user: User = reactive({
   username: "ciaran-io",
   settings: [],
 });
+const handleCreateEntry = (entry: { text: string; emoji: Emoji | null }) => {
+  console.log(entry);
+};
 </script>
 
 <template>
   <main class="container m-auto p-10">
     <TheHeader />
-    <EntryEditor />
+    <EntryEditor @@create="handleCreateEntry" />
     <ul>
       <li>
         <EntryCard />
