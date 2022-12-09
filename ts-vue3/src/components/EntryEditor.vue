@@ -2,19 +2,20 @@
 import ArrowCircleRight from "@/assets/icons/arrow-circle-right.svg";
 import EmojiField from "@/components/EmojiField.vue";
 import type Emoji from "@/types/Emoji";
+import type Entry from "@/types/Entry";
 import { ref, computed } from "vue";
 
+defineEmits<{
+  (Event: "@create", entry: Entry): void;
+}>();
+
 // data
-const text = ref("");
+const body = ref("");
 const emoji = ref<Emoji | null>(null);
-const charCount = computed(() => text.value.length);
+const charCount = computed(() => body.value.length);
 const maxCharCount = 280;
 
 // events
-
-defineEmits<{
-  (event: "@create", entry: { text: string; emoji: Emoji | null }): void;
-}>();
 
 // methods
 // Remove text inout after 280 characters
@@ -22,9 +23,9 @@ const handleTextInput = (event: Event) => {
   const textarea = event.target as HTMLInputElement;
 
   if (textarea.value.length <= maxCharCount) {
-    text.value = textarea.value;
+    body.value = textarea.value;
   } else {
-    text.value = textarea.value = textarea.value.substring(0, maxCharCount);
+    body.value = textarea.value = textarea.value.substring(0, maxCharCount);
   }
 };
 </script>
@@ -32,10 +33,18 @@ const handleTextInput = (event: Event) => {
 <template>
   <form
     class="entry-form"
-    @submit.prevent="$emit('@create', { text, emoji })"
+    @submit.prevent="
+      $emit('@create', {
+        id: Math.random(),
+        user: 1,
+        createdAt: new Date(),
+        body,
+        emoji,
+      })
+    "
   >
     <textarea
-      :value="text"
+      :value="body"
       placeholder="New Journal Entry for ciaran-io"
       @keyup="handleTextInput"
     />
