@@ -3,11 +3,7 @@ import ArrowCircleRight from "@/assets/icons/arrow-circle-right.svg";
 import EmojiField from "@/components/EmojiField.vue";
 import type Emoji from "@/types/Emoji";
 import type Entry from "@/types/Entry";
-import { ref, computed } from "vue";
-
-const emit = defineEmits<{
-  (Event: "@create", entry: Entry): void;
-}>();
+import { ref, computed, onMounted } from "vue";
 
 // data
 const body = ref("");
@@ -15,7 +11,16 @@ const emoji = ref<Emoji | null>(null);
 const charCount = computed(() => body.value.length);
 const maxCharCount = 280;
 
+// template refs
+const textarea = ref<HTMLTextAreaElement | null>(null);
+
+// Hooks
+onMounted(() => textarea.value?.focus());
+
 // events
+const emit = defineEmits<{
+  (Event: "@create", entry: Entry): void;
+}>();
 
 // methods
 // Remove text inout after 280 characters
@@ -48,6 +53,7 @@ const handleSubmit = () => {
     @submit.prevent="handleSubmit"
   >
     <textarea
+      ref="textarea"
       :value="body"
       placeholder="New Journal Entry for ciaran-io"
       @keyup="handleTextInput"
