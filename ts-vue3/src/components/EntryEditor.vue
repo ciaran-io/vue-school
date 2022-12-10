@@ -3,13 +3,15 @@ import ArrowCircleRight from "@/assets/icons/arrow-circle-right.svg";
 import EmojiField from "@/components/EmojiField.vue";
 import type Emoji from "@/types/Emoji";
 import type Entry from "@/types/Entry";
-import { ref, computed, onMounted } from "vue";
+import { ref, computed, onMounted, inject } from "vue";
+import { userInjectionKey } from "@/injectionKeys";
 
 // data
 const body = ref("");
 const emoji = ref<Emoji | null>(null);
 const charCount = computed(() => body.value.length);
 const maxCharCount = 280;
+const user = inject(userInjectionKey);
 
 // template refs
 const textarea = ref<HTMLTextAreaElement | null>(null);
@@ -55,7 +57,7 @@ const handleSubmit = () => {
     <textarea
       ref="textarea"
       :value="body"
-      placeholder="New Journal Entry for ciaran-io"
+      :placeholder="`New Journal Entry for ${user?.username || 'anonymous'}`"
       @keyup="handleTextInput"
     />
     <EmojiField v-model="emoji" />
