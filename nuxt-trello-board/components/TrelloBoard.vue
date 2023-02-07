@@ -44,19 +44,26 @@
 </script>
 
 <template>
-  <div class="flex items-start gap-x-4 overflow-x-auto">
+  <div class="container flex items-start gap-x-4 overflow-x-auto pb-4">
     <div
       v-for="column in columns"
       :key="column.id"
-      class="bg-gray-200 p-5 rounded min-w-[250px]  "
+      class="min-w-[250px] rounded bg-gray-200 p-5 space-y-4"
     >
-      <header>{{ column.title }} </header>
-      <p
-        v-for="task in column.tasks"
-        :key="task.id"
-      >
-        {{ task.title }}
-      </p>
+      <header class="font-semibold">
+        {{ column.title }}
+      </header>
+
+      <div class="space-y-2">
+        <TrelloBoardList
+          v-for="task in column.tasks"
+          :key="task.id"
+          :task="task"
+        />
+      </div>
+      <footer>
+        <button>Add a Card</button>
+      </footer>
     </div>
   </div>
 </template>
