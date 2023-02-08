@@ -60,7 +60,17 @@
         <div class="min-w-[250px] space-y-4 rounded bg-gray-200 p-5">
           <header class="font-semibold">
             <DragHandle />
-            {{ column.title }}
+            <input
+              v-model="column.title"
+              class="title-input bg-transparent px-1 focus:bg-white"
+              type="text"
+              @keyup.enter=";($event.target as HTMLInputElement).blur()"
+              @keydown.delete="
+                column.title === ''
+                  ? (columns = columns.filter((c) => c.id !== column.id))
+                  : null
+              "
+            />
           </header>
 
           <draggable
