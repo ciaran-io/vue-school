@@ -75,12 +75,19 @@
             class="space-y-2"
           >
             <template #item="{ element: task }: { element: Task }">
-              <TrelloBoardTask :task="task" />
+              <TrelloBoardTask
+                :task="task"
+                @delete="
+                  column.tasks = column.tasks.filter(
+                    (task) => task.id !== $event
+                  )
+                "
+              />
             </template>
           </draggable>
 
           <footer>
-           <NewTask @add-task="column.tasks.push($event)"/>
+            <NewTask @add-task="column.tasks.push($event)" />
           </footer>
         </div>
       </template>
@@ -91,7 +98,5 @@
 <style lang="postcss">
   .sortable-drag {
     @apply bg-cyan-300;
-
   }
-
 </style>
