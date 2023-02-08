@@ -4,7 +4,7 @@
 
   const uuid = () => crypto.randomUUID()
 
-  const columns = ref<Column[]>([
+  const columns = useLocalStorage<Column[]>('trelloBoard',[
     {
       id: uuid(),
       title: 'Backlog',
