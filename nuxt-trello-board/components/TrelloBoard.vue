@@ -1,6 +1,5 @@
 <script setup lang="ts">
   import draggable from 'vuedraggable'
-
   import type { Column } from '~/types'
 
   const uuid = () => crypto.randomUUID()
@@ -44,21 +43,37 @@
     },
   ])
   const alt = useKeyModifier('Alt')
+
+  function createColumn() {
+    const column: Column = {
+      id: uuid(),
+      title: '',
+      tasks: [],
+    }
+    columns.value.push(column)
+    nextTick(() => {
+      ;(
+        document.querySelector(
+          '.column:last-of-type .title-input'
+        ) as HTMLInputElement
+      ).focus()
+    })
+  }
 </script>
 
 <template>
-  <div>
+  <div class="container flex items-start gap-x-4 overflow-x-auto">
     <draggable
       v-model="columns"
       group="columns"
       :animation="150"
       handle=".drag-handle"
       item-key="id"
-      class="container flex items-start gap-x-4 overflow-x-auto pb-4"
+      class="flex items-start gap-x-4 pb-4"
     >
       <template #item="{ element: column }: { element: Column }">
-        <div class="min-w-[250px] space-y-4 rounded bg-gray-200 p-5">
-          <header class="font-semibold">
+        <div class="column min-w-[250px] space-y-4 rounded bg-gray-200 p-5">
+          <header class="flex items-end font-semibold">
             <DragHandle />
             <input
               v-model="column.title"
@@ -102,6 +117,12 @@
         </div>
       </template>
     </draggable>
+    <button
+      class="min-w-fit rounded bg-gray-400 p-2"
+      @click="createColumn"
+    >
+      ➕Add Another Column
+    </button>
   </div>
 </template>
 
